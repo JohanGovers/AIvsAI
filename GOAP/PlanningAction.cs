@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GOAP
 {
-    class Goal
+    public class Goal
     {
         public string Name;
         List<Tuple<string, int>> _targets = new List<Tuple<string, int>>();
@@ -34,7 +34,7 @@ namespace GOAP
         }
     }
 
-    class PlanningAction : ICloneable
+    public class PlanningAction : ICloneable
     {
         public string Name;
         bool multiProducer = false;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GOAP
 {
-    class State : ICloneable
+    public class State : ICloneable
     {
         public Dictionary<string, int> Items;
         public List<PlanningAction> PlanningActions;
