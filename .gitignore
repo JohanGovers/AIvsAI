@@ -2,9 +2,12 @@
 *.suo
 *.user
 
-# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+# Build Folders
 bin
 obj
 
 # mstest test results
 TestResults
+
+# NCrunch working folder
+_NCrunch_AIvsAI
