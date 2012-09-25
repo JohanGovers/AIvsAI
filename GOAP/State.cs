@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace GOAP
-{
+{   //
     public class State : ICloneable
     {
         public Dictionary<string, int> Items;
