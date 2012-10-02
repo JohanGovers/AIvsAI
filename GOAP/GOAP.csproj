@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Goal.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="PlanningAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

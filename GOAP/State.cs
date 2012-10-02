@@ -4,9 +4,15 @@ using System.Linq;
 using System.Text;
 
 namespace GOAP
-{   //
-    public class State : ICloneable
+{
+	public class State : ICloneable
     {
+        //public static List<Func<State>> _funcs = new List<Func<State>>();
+        //public static Dictionary<string, Predicate<State,string>> prejudicates = new Dictionary<string, Predicate<State,string>>();
+        public static Dictionary<string, Func<State, string, string, bool>> prejudicates = new Dictionary<string, Func<State, string, string, bool>>();
+        public static Dictionary<string, Func<State, string, string, string>> itemfuncs = new Dictionary<string, Func<State, string, string, string>>();
+
+        public List<Tuple<string, string, string>> Relations = new List<Tuple<string, string, string>>();
         public Dictionary<string, int> Items;
         public List<PlanningAction> PlanningActions;
         public State()
@@ -19,20 +25,15 @@ namespace GOAP
         }
         public void AddItem(string item, int quantity)
         {
-            if (!Items.ContainsKey(item))
-            {
-                Items.Add(item, quantity);
-            }
-            else
-            {
-                Items[item] += quantity;
-            }
+            if (!Items.ContainsKey(item)) Items.Add(item, quantity);
+            else Items[item] += quantity;
         }
         public void ReduceItem(string item, int quantity)
         {
             if (Items.ContainsKey(item))
             {
                 Items[item] -= quantity;
+                if (Items[item] == 0) RemoveItem(item);
             }
         }
         
@@ -50,10 +51,7 @@ namespace GOAP
         }
         public bool Sufficient(string item, int quantity)
         {
-            if (!Items.ContainsKey(item))
-            {
-                return false;
-            }
+            if (!Items.ContainsKey(item)) return false;
             if (Items[item] < quantity) return false;
             return true;
         }
@@ -72,6 +70,10 @@ namespace GOAP
             foreach (var pa in this.PlanningActions)
             {
                 cloned.PlanningActions.Add((PlanningAction)pa.Clone());
+            }
+            foreach (var rel in Relations)
+            {
+                cloned.Relations.Add(rel);
             }
             return cloned;
         }

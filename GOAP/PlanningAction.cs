@@ -5,49 +5,29 @@ using System.Text;
 
 namespace GOAP
 {
-    public class Goal
-    {
-        public string Name;
-        List<Tuple<string, int>> _targets = new List<Tuple<string, int>>();
-        
-        public Goal(string Name)
-        {
-            this.Name = Name;
-        }
-
-        public Goal Target(string item, int quantity)
-        {
-            _targets.Add(new Tuple<string, int>(item, quantity));
-            return this;
-        }
-
-        public double Fulfillment(State s)
-        {
-            double score = 0.0;
-            foreach (var tgt in _targets)
-            {
-                double actual = s.ItemQuantity(tgt.Item1);
-                if (actual > tgt.Item2) actual = tgt.Item2;
-                score += actual / tgt.Item2;
-            }
-            return score / _targets.Count();
-        }
-    }
+    
 
     public class PlanningAction : ICloneable
     {
         public string Name;
         bool multiProducer = false;
-
-        List<string> _requires=new List<string>();
-        List<Tuple<string, int>> _consumes = new List<Tuple<string, int>>();
-        List<Tuple<string, int>> _produces = new List<Tuple<string, int>>();
+        List<Func<State,bool>> _prejudicates = new List<Func<State,bool>>();
+        Dictionary<string, int> _requires = new Dictionary<string, int>();
+        Dictionary<string, int> _consumes = new Dictionary<string, int>();
+        Dictionary<string, int> _produces = new Dictionary<string, int>();
         List<Action<State>> _postActions = new List<Action<State>>();
 
         public PlanningAction(string Name)
         {
             this.Name = Name;
         }
+
+        public PlanningAction AssignPrejudicate(Func<State,bool> prejudicate)
+        {
+            _prejudicates.Add(prejudicate);
+            return this;
+        }
+
 
         public PlanningAction AssignPostAction(Action<State> PostAction)
         {
@@ -57,8 +37,9 @@ namespace GOAP
 
         public bool CanExecute(State s)
         {
-            if (_requires.Exists(l => !s.Has(l))) return false;
-            if (_consumes.Exists(l => !s.Sufficient(l.Item1,l.Item2))) return false;
+            if (_prejudicates.Any(l => !l(s))) return false;
+            if (_requires.Any(l => !s.Has(l.Key))) return false;
+            if (_consumes.Any(l => !s.Sufficient(l.Key, l.Value))) return false;
             return true;
         }
 
@@ -71,28 +52,37 @@ namespace GOAP
 
         public void Execute(State s)
         {
-            _consumes.ForEach(c => s.ReduceItem(c.Item1, c.Item2));
+            foreach (var c in _consumes)
+            {
+                s.ReduceItem(c.Key, c.Value);
+            }
             if (multiProducer)
             {
-                int quantity = s.ItemQuantity(_requires.First());
-                _produces.ForEach(p => s.AddItem(p.Item1, p.Item2 * quantity));
+                int quantity = s.ItemQuantity(_requires.Keys.First());
+                foreach (var p in _produces)
+                {
+                    s.AddItem(p.Key, p.Value * quantity);
+                }
            
             }
             else
             {
-                _produces.ForEach(p => s.AddItem(p.Item1, p.Item2));
+                foreach (var p in _produces)
+                {
+                    s.AddItem(p.Key, p.Value);
+                }
             }
             _postActions.ForEach(pa => pa(s));
         }
 
         public PlanningAction Requires(string item)
         {
-            _requires.Add(item);
+            _requires.Add(item, 0);
             return this;
         }
         public PlanningAction Consumes(string item,int quantity)
         {
-            _consumes.Add(new Tuple<string,int>(item,quantity));
+            _consumes.Add(item, quantity);
             return this;
         }
         public PlanningAction Consumes(string item)
@@ -101,7 +91,7 @@ namespace GOAP
         }
         public PlanningAction Produces(string item, int quantity)
         {
-            _produces.Add(new Tuple<string, int>(item, quantity));
+            _produces.Add(item, quantity);
             return this;
         }
         public PlanningAction Produces(string item)
@@ -115,35 +105,31 @@ namespace GOAP
             return this;
         }
 
-
-
         public object Clone()
         {
             var cloned = new PlanningAction(this.Name);
             cloned.multiProducer = this.multiProducer;
             foreach (var req in _requires)
             {
-                cloned._requires.Add(req);
+                cloned._requires.Add(req.Key,req.Value);
             }
             foreach (var c in _consumes)
             {
-                cloned._consumes.Add(new Tuple<string, int>(c.Item1, c.Item2));
+                cloned._consumes.Add(c.Key, c.Value);
             }
             foreach (var p in _produces)
             {
-                cloned._produces.Add(new Tuple<string, int>(p.Item1, p.Item2));
+                cloned._produces.Add(p.Key,p.Value);
+            }
+            foreach (var pr in _prejudicates)
+            {
+                cloned._prejudicates.Add(pr);
+            }
+            foreach (var pa in _postActions)
+            {
+                cloned._postActions.Add(pa);
             }
             return cloned;
         }
     }
-
-    static class PlanningActionHandler
-    {
-        /*public static IPerishingAction Perishes()
-        {
-            return new PerishingAction();
-        }*/
-
-    }
-
 }
