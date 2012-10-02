@@ -115,7 +115,7 @@ namespace GOAP.Test
 				return "";
 			});
 
-			List<string> abc = new List<string> { "A", "B", "C" };
+			/*List<string> abc = new List<string> { "A", "B", "C" };
 			foreach (var fr in abc)
 			{
 				foreach (var to in abc.Where(l => l != fr))
@@ -128,7 +128,7 @@ namespace GOAP.Test
 					.AssignPostAction(st => { State.itemfuncs["Move Disc"](st, x1, x2); })
 					);
 				}
-			}
+			}*/
 
 			s0.PlanningActions.Add(new PlanningAction("Move A to B")
 									.AssignPrejudicate(st => State.prejudicates["Valid Move"](st, "Peg A", "Peg B"))
@@ -154,7 +154,7 @@ namespace GOAP.Test
 								   .AssignPrejudicate(st => State.prejudicates["Valid Move"](st, "Peg C", "Peg B"))
 								   .AssignPostAction(st => { State.itemfuncs["Move Disc"](st, "Peg C", "Peg B"); })
 								   );
-
+            
 			var g0 = new Goal("Solve Hanoi").RelationalTarget("Object Relation", "Disc Large", "Peg C")
 											.RelationalTarget("Object Relation", "Disc Medium", "Disc Large")
 											.RelationalTarget("Object Relation", "Disc Small", "Disc Medium");
@@ -169,7 +169,9 @@ namespace GOAP.Test
 
 			Plan p = new Plan();
 			p.Search(s0, g0, 0);
-			p.Search(s0, g0, 0);
+			//p.Search(s0, g0, 0);
+
+            Assert.Greater(p.bestPath.Count, 6);
 
 			foreach (var bs in p.bestPath.Reverse())
 			{

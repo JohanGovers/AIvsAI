@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="PlanTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateTest.cs" />
     <Compile Include="TowerOfHanoiTest.cs" />
   </ItemGroup>
   <ItemGroup>

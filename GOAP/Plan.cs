@@ -37,7 +37,7 @@ namespace GOAP
 			}
 
 
-			if (depth < 5)
+			if (depth < 7)
 			{
 				foreach (var a in state.PlanningActions.Where(l => l.CanExecute(state)))
 				{

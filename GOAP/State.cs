@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GOAP
 {
-	public class State : ICloneable
+	public class State : ICloneable, IEquatable<State>
     {
         //public static List<Func<State>> _funcs = new List<Func<State>>();
         //public static Dictionary<string, Predicate<State,string>> prejudicates = new Dictionary<string, Predicate<State,string>>();
@@ -76,6 +76,17 @@ namespace GOAP
                 cloned.Relations.Add(rel);
             }
             return cloned;
+        }
+
+        public bool Equals(State other)
+        {
+            if (Items.Any(l => !other.Items.Contains(l))) return false;
+            if (Items.Count() != other.Items.Count()) return false;
+            if (Relations.Any(l => !other.Relations.Contains(l))) return false;
+            if (Relations.Count() != other.Relations.Count()) return false;
+            if (PlanningActions.Select(n => n.Name).Any(l => !other.PlanningActions.Select(n => n.Name).Contains(l))) return false;
+            if (PlanningActions.Count() != other.PlanningActions.Count()) return false;
+            return true;
         }
     }
 }
