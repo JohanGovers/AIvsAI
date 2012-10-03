@@ -30,17 +30,14 @@ namespace ConsoleTestProgram
             var s1 = s0.Clone();
 
             Plan p = new Plan();
-            p.Search(s0, g0, 0);
+            p.Search(s0, g0);
 
 
-            /*var pa = new PlanningAction("Build Harvester").Requires("Factory").Consumes("Cash", 50).Produces("Harvester");
-            pa.AssignPostAction(ls => { ls.PlanningActions.Add(new PlanningAction("Spawner")); });
-            */
             List<string> bpath = new List<string>(); 
             bpath.Add("Initial score: " + g0.Fulfillment(s0));
-            foreach (var bs in p.bestPath.Reverse())
+            foreach (var bs in p.GetPath().Reverse())
             {
-                var pa = s0.PlanningActions.Where(l => l.Name == bs).First();
+                var pa = s0.PlanningActions.Where(l => l.Name == bs.Name).First();
                 pa.Execute(s0);
                 bpath.Add(bs +" score: "+ g0.Fulfillment(s0));
             }

@@ -17,6 +17,10 @@ namespace GOAP
         Dictionary<string, int> _produces = new Dictionary<string, int>();
         List<Action<State>> _postActions = new List<Action<State>>();
 
+        /// <summary>
+        /// A PlanningAction transforms a State into a new State.
+        /// </summary>
+        /// <param name="Name"></param>
         public PlanningAction(string Name)
         {
             this.Name = Name;

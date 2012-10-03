@@ -15,6 +15,10 @@ namespace GOAP
         public List<Tuple<string, string, string>> Relations = new List<Tuple<string, string, string>>();
         public Dictionary<string, int> Items;
         public List<PlanningAction> PlanningActions;
+        
+        /// <summary>
+        /// A State is a snapshot of the current world, its items and inter-object relations
+        /// </summary>
         public State()
         {
             Items = new Dictionary<string, int>();

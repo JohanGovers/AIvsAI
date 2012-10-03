@@ -18,9 +18,9 @@ namespace GOAP.Test
             var g0 = new Goal("Build Harvester").Target("Harvester", 1);
             
             Plan p = new Plan();
-            p.Search(state, g0, 0);
+            p.Search(state, g0);
 
-            Assert.That(p.bestPath.Peek(), Is.EqualTo(actionName));
+            Assert.That(p.GetPath().Peek().Name, Is.EqualTo(actionName));
         }
 
         [Test]
@@ -33,9 +33,9 @@ namespace GOAP.Test
             var g0 = new Goal("Build Harvester").Target("Harvester", 1);
 
             Plan p = new Plan();
-            p.Search(state, g0, 0);
+            p.Search(state, g0);
 
-            Assert.That(p.bestPath.Peek(), Is.EqualTo(actionName));
+            Assert.That(p.GetPath().Peek().Name, Is.EqualTo(actionName));
         }
 
         [Test]
@@ -49,9 +49,25 @@ namespace GOAP.Test
             var g0 = new Goal("Build Harvester").Target("Harvester", 1);
 
             Plan p = new Plan();
-            p.Search(state, g0, 0);
+            p.Search(state, g0);
 
-            Assert.That(p.bestPath.Count, Is.EqualTo(0));
+            Assert.That(p.GetPath().Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void LimitDepthFirstPlanSearch()
+        {
+            var state = new State();
+            state.AddItem("Cash", 0);
+            var action = new PlanningAction("Get Salary").Produces("Cash",100);
+            state.PlanningActions.Add(action);
+
+            var g0 = new Goal("Accumulate Cash").Target("Cash", 1000);
+
+            Plan p = new Plan().SetMaxSearchDepth(3);
+            p.Search(state, g0);
+
+            Assert.That(p.GetPath().Count, Is.EqualTo(3));
         }
     }
 }

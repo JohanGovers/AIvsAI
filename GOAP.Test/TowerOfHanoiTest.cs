@@ -10,7 +10,7 @@ namespace GOAP.Test
 	class TowerOfHanoiTest
 	{
 		[Test]
-		public void SolveTowerOfHanoiWith3Tiles()
+		public void SolveTowerOfHanoiWith3Discs()
 		{
 			// S ==> S
 			// M ==> M
@@ -161,24 +161,16 @@ namespace GOAP.Test
 
 			var s1 = s0.Clone();
 
-			var xf = State.prejudicates["Valid Move"](s0, "Peg A", "Peg B");  //(s0, "Peg A", "Peg B");
+			var xf = State.prejudicates["Valid Move"](s0, "Peg A", "Peg B"); 
 
 			List<string> bpath = new List<string>();
 			bpath.Add("Initial score: " + g0.Fulfillment(s0));
 
 
 			Plan p = new Plan();
-			p.Search(s0, g0, 0);
-			//p.Search(s0, g0, 0);
+			p.Search(s0, g0);
 
-            Assert.Greater(p.bestPath.Count, 6);
-
-			foreach (var bs in p.bestPath.Reverse())
-			{
-				var pa = s0.PlanningActions.Where(l => l.Name == bs).First();
-				pa.Execute(s0);
-				bpath.Add(bs + " score: " + g0.Fulfillment(s0));
-			}
+            Assert.Greater(p.GetPath().Count, 6);
 		}
 	}
 }
