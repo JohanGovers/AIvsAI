@@ -2,20 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GOAP.Planners;
 
 namespace GOAP
 {
 	public class State : ICloneable, IEquatable<State>
     {
-        //public static List<Func<State>> _funcs = new List<Func<State>>();
-        //public static Dictionary<string, Predicate<State,string>> prejudicates = new Dictionary<string, Predicate<State,string>>();
-        public static Dictionary<string, Func<State, string, string, bool>> prejudicates = new Dictionary<string, Func<State, string, string, bool>>();
-        public static Dictionary<string, Func<State, string, string, string>> itemfuncs = new Dictionary<string, Func<State, string, string, string>>();
-
         public List<Tuple<string, string, string>> Relations = new List<Tuple<string, string, string>>();
         public Dictionary<string, int> Items;
         public List<PlanningAction> PlanningActions;
-        
+
         /// <summary>
         /// A State is a snapshot of the current world, its items and inter-object relations
         /// </summary>
