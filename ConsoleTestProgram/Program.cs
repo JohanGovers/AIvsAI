@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GOAP;
+using GOAP.Planners;
 
 namespace ConsoleTestProgram
 {
@@ -29,7 +30,7 @@ namespace ConsoleTestProgram
 
             var s1 = s0.Clone();
 
-            Plan p = new Plan();
+            IPlan p = new Plan();
             p.Search(s0, g0);
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using GOAP.Planners;
 
 namespace GOAP.Test
 {
@@ -17,7 +18,7 @@ namespace GOAP.Test
             state.PlanningActions.Add(new PlanningAction(actionName).Produces("Harvester"));
             var g0 = new Goal("Build Harvester").Target("Harvester", 1);
             
-            Plan p = new Plan();
+            IPlan p = new Plan();
             p.Search(state, g0);
 
             Assert.That(p.GetPath().Peek().Name, Is.EqualTo(actionName));
@@ -32,7 +33,7 @@ namespace GOAP.Test
             state.PlanningActions.Add(new PlanningAction("Not leading to goal").Produces("retsevraH"));
             var g0 = new Goal("Build Harvester").Target("Harvester", 1);
 
-            Plan p = new Plan();
+            IPlan p = new Plan();
             p.Search(state, g0);
 
             Assert.That(p.GetPath().Peek().Name, Is.EqualTo(actionName));
@@ -48,7 +49,7 @@ namespace GOAP.Test
 
             var g0 = new Goal("Build Harvester").Target("Harvester", 1);
 
-            Plan p = new Plan();
+            IPlan p = new Plan();
             p.Search(state, g0);
 
             Assert.That(p.GetPath().Count, Is.EqualTo(0));
@@ -64,7 +65,7 @@ namespace GOAP.Test
 
             var g0 = new Goal("Accumulate Cash").Target("Cash", 1000);
 
-            Plan p = new Plan().SetMaxSearchDepth(3);
+            IPlan p = new Plan().SetMaxSearchDepth(3);
             p.Search(state, g0);
 
             Assert.That(p.GetPath().Count, Is.EqualTo(3));
