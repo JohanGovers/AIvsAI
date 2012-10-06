@@ -30,7 +30,7 @@ namespace ConsoleTestProgram
 
             var s1 = s0.Clone();
 
-            IPlan p = new Plan();
+            IPlan p = new DFSPlan();
             p.Search(s0, g0);
 
 

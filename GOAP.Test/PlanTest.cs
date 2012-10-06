@@ -18,7 +18,7 @@ namespace GOAP.Test
             state.PlanningActions.Add(new PlanningAction(actionName).Produces("Harvester"));
             var g0 = new Goal("Build Harvester").Target("Harvester", 1);
             
-            IPlan p = new Plan();
+            IPlan p = new DFSPlan();
             p.Search(state, g0);
 
             Assert.That(p.GetPath().Peek().Name, Is.EqualTo(actionName));
@@ -33,7 +33,7 @@ namespace GOAP.Test
             state.PlanningActions.Add(new PlanningAction("Not leading to goal").Produces("retsevraH"));
             var g0 = new Goal("Build Harvester").Target("Harvester", 1);
 
-            IPlan p = new Plan();
+            IPlan p = new DFSPlan();
             p.Search(state, g0);
 
             Assert.That(p.GetPath().Peek().Name, Is.EqualTo(actionName));
@@ -49,7 +49,7 @@ namespace GOAP.Test
 
             var g0 = new Goal("Build Harvester").Target("Harvester", 1);
 
-            IPlan p = new Plan();
+            IPlan p = new DFSPlan();
             p.Search(state, g0);
 
             Assert.That(p.GetPath().Count, Is.EqualTo(0));
@@ -65,7 +65,7 @@ namespace GOAP.Test
 
             var g0 = new Goal("Accumulate Cash").Target("Cash", 1000);
 
-            IPlan p = new Plan().SetMaxSearchDepth(3);
+            IPlan p = new DFSPlan().SetMaxSearchDepth(3);
             p.Search(state, g0);
 
             Assert.That(p.GetPath().Count, Is.EqualTo(3));

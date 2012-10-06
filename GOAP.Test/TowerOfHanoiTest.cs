@@ -23,7 +23,6 @@ namespace GOAP.Test
 		
 		    var hanoiDomain = new Domain().BuildLogic((domain, state) =>
             {
-
                 state.Relations.Add(new Tuple<string, string, string>("Object Relation", "Disc Small" , "Disc Medium"));
                 state.Relations.Add(new Tuple<string, string, string>("Object Relation", "Disc Medium", "Disc Large"));
                 state.Relations.Add(new Tuple<string, string, string>("Object Relation", "Disc Large" , "Peg A"));
@@ -133,10 +132,10 @@ namespace GOAP.Test
 			bpath.Add("Initial score: " + hanoiDomain.Goal.Fulfillment(hanoiDomain.State));
 
 
-			IPlan p = new Plan().SetMaxSearchDepth(8);
+			IPlan p = new DFSPlan().SetMaxSearchDepth(7);
 			p.Search(hanoiDomain.State, hanoiDomain.Goal);
 
-            Assert.AreEqual(p.GetPath().Count, 7,"{0}",p.GetPath().Count);
+            Assert.GreaterOrEqual(hanoiDomain.Goal.Fulfillment(p.GetFinalState()), 1.0);
        }
 	}
 

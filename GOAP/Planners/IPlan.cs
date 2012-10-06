@@ -9,5 +9,6 @@ namespace GOAP.Planners
     {
         void Search(State state, Goal goal);
         Stack<PlanningAction> GetPath();
+        State GetFinalState();
     }
 }

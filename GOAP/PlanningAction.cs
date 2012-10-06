@@ -26,6 +26,11 @@ namespace GOAP
             this.Name = Name;
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         public PlanningAction AssignPrejudicate(Func<State,bool> prejudicate)
         {
             _prejudicates.Add(prejudicate);
