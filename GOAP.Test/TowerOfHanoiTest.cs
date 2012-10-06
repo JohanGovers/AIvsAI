@@ -10,22 +10,22 @@ namespace GOAP.Test
 	[TestFixture]
 	class TowerOfHanoiTest
 	{
-		[Test]
-		public void SolveTowerOfHanoiWith3Discs()
-		{
-			// S ==> S
-			// M ==> M
-			// L ==> L
-			// A  B  C
+        Domain hanoiDomain;
+        public TowerOfHanoiTest()
+        {
+            // S ==> S
+            // M ==> M
+            // L ==> L
+            // A  B  C
             //
-			// Peg  = {A,B,C}
-			// Disc = {S,M,L}
-		
-		    var hanoiDomain = new Domain().BuildLogic((domain, state) =>
+            // Peg  = {A,B,C}
+            // Disc = {S,M,L}
+
+            hanoiDomain = new Domain().BuildLogic((domain, state) =>
             {
-                state.Relations.Add(new Tuple<string, string, string>("Object Relation", "Disc Small" , "Disc Medium"));
+                state.Relations.Add(new Tuple<string, string, string>("Object Relation", "Disc Small", "Disc Medium"));
                 state.Relations.Add(new Tuple<string, string, string>("Object Relation", "Disc Medium", "Disc Large"));
-                state.Relations.Add(new Tuple<string, string, string>("Object Relation", "Disc Large" , "Peg A"));
+                state.Relations.Add(new Tuple<string, string, string>("Object Relation", "Disc Large", "Peg A"));
 
                 Dictionary<string, int> ObjectRelativeOrder = new Dictionary<string, int>()
 	            {
@@ -37,9 +37,9 @@ namespace GOAP.Test
 	                {"Disc Small", 3}
 	            };
                 Func<string, string, bool> IsValidConfiguration = (above, below) =>
-                    {
-                        return (ObjectRelativeOrder[above] > ObjectRelativeOrder[below]);
-                    };
+                {
+                    return (ObjectRelativeOrder[above] > ObjectRelativeOrder[below]);
+                };
 
                 Func<State, string, string> PeekStack = (State s, string peg) =>
                 {
@@ -84,7 +84,7 @@ namespace GOAP.Test
                             peg = null;
                         }
                     }
-                    s.Relations.Remove( s.Relations.Find(rel => rel.Item1 == "Object Relation" && rel.Item2 == item) );
+                    s.Relations.Remove(s.Relations.Find(rel => rel.Item1 == "Object Relation" && rel.Item2 == item));
                     return item;
                 };
 
@@ -101,7 +101,7 @@ namespace GOAP.Test
                 state.PlanningActions.Add(new PlanningAction("Move A to B")
                                         .AssignPrejudicate(st => IsValidMove(st, "Peg A", "Peg B"))
                                         .AssignPostAction(st => MoveItem(st, "Peg A", "Peg B"))
-                           );
+                                       );
                 state.PlanningActions.Add(new PlanningAction("Move A to C")
                                        .AssignPrejudicate(st => IsValidMove(st, "Peg A", "Peg C"))
                                        .AssignPostAction(st => MoveItem(st, "Peg A", "Peg C"))
@@ -127,7 +127,11 @@ namespace GOAP.Test
                                             .RelationalTarget("Object Relation", "Disc Medium", "Disc Large")
                                             .RelationalTarget("Object Relation", "Disc Small", "Disc Medium")
             );
-
+        }
+		[Test]
+		public void SolveTowerOfHanoiWith3Discs()
+		{
+			
 			List<string> bpath = new List<string>();
 			bpath.Add("Initial score: " + hanoiDomain.Goal.Fulfillment(hanoiDomain.State));
 
@@ -137,6 +141,20 @@ namespace GOAP.Test
 
             Assert.GreaterOrEqual(hanoiDomain.Goal.Fulfillment(p.GetFinalState()), 1.0);
        }
+
+        [Test]
+        public void IncrementalPlanningSearch()
+        {
+            List<string> bpath = new List<string>();
+            bpath.Add("Initial score: " + hanoiDomain.Goal.Fulfillment(hanoiDomain.State));
+
+            IPlan p = new DFSPlan().SetMaxSearchDepth(4);
+            p.Search(hanoiDomain.State, hanoiDomain.Goal);
+            p.Search(p.GetFinalState(), hanoiDomain.Goal);
+
+            Assert.GreaterOrEqual(hanoiDomain.Goal.Fulfillment(p.GetFinalState()), 1.0);
+        }
+
 	}
 
 }
