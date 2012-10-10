@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Goal.cs" />
     <Compile Include="Domain.cs" />
+    <Compile Include="Planners\BFSPlan.cs" />
     <Compile Include="Planners\IPlan.cs" />
     <Compile Include="Planners\DFSPlan.cs" />
     <Compile Include="PlanningAction.cs" />
