@@ -21,7 +21,7 @@ namespace GOAP.Test
             IPlan p = new DFSPlan();
             p.Search(state, g0);
 
-            Assert.That(p.GetPath().Peek().Name, Is.EqualTo(actionName));
+            Assert.That(p.GetPath()[0].Name, Is.EqualTo(actionName));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace GOAP.Test
             IPlan p = new DFSPlan();
             p.Search(state, g0);
 
-            Assert.That(p.GetPath().Peek().Name, Is.EqualTo(actionName));
+            Assert.That(p.GetPath()[0].Name, Is.EqualTo(actionName));
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace GOAP.Test
             IPlan p = new DFSPlan();
             p.Search(state, g0);
 
-            Assert.That(p.GetPath().Count, Is.EqualTo(0));
+            Assert.That(p.GetPath().ToList().Count, Is.EqualTo(0));
         }
 
         [Test]

@@ -36,12 +36,12 @@ namespace ConsoleTestProgram
 
             List<string> bpath = new List<string>(); 
             bpath.Add("Initial score: " + g0.Fulfillment(s0));
-            foreach (var bs in p.GetPath().Reverse())
-            {
-                var pa = s0.PlanningActions.Where(l => l.Name == bs.Name).First();
-                pa.Execute(s0);
-                bpath.Add(bs +" score: "+ g0.Fulfillment(s0));
-            }
+			//foreach (var bs in p.GetPath().Reverse())
+			//{
+			//    var pa = s0.PlanningActions.Where(l => l.Name == bs.Name).First();
+			//    pa.Execute(s0);
+			//    bpath.Add(bs +" score: "+ g0.Fulfillment(s0));
+			//}
         }
     }
 }

@@ -73,9 +73,9 @@ namespace GOAP
             Search(state, goal, 0);
         }
 
-        public Stack<PlanningAction> GetPath()
+        public IList<PlanningAction> GetPath()
         {
-            return this.bestActionStack;
+			return this.bestActionStack.ToList();
         }
 
 

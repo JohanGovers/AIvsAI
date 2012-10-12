@@ -43,7 +43,7 @@ namespace GOAP
 				if (s.Relations.Contains(reltgt)) { score += 1.0; }
 				else { break; }
             }
-            return score / (_targets.Count() + _relationalTargets.Count());
+            return score / (_targets.Count + _relationalTargets.Count);
         }
     }
 }

@@ -81,11 +81,11 @@ namespace GOAP
         public bool Equals(State other)
         {
             if (Items.Any(l => !other.Items.Contains(l))) return false;
-            if (Items.Count() != other.Items.Count()) return false;
+            if (Items.Count != other.Items.Count) return false;
             if (Relations.Any(l => !other.Relations.Contains(l))) return false;
-            if (Relations.Count() != other.Relations.Count()) return false;
+            if (Relations.Count != other.Relations.Count) return false;
             if (PlanningActions.Select(n => n.Name).Any(l => !other.PlanningActions.Select(n => n.Name).Contains(l))) return false;
-            if (PlanningActions.Count() != other.PlanningActions.Count()) return false;
+            if (PlanningActions.Count != other.PlanningActions.Count) return false;
             return true;
         }
     }

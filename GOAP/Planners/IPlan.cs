@@ -8,7 +8,7 @@ namespace GOAP.Planners
     public interface IPlan
     {
         void Search(State state, Goal goal);
-        Stack<PlanningAction> GetPath();
+        IList<PlanningAction> GetPath();
         State GetFinalState();
     }
 }
