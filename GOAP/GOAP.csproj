@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Goal.cs" />
+    <Compile Include="Goals\CustomGoal.cs" />
+    <Compile Include="Goals\Goal.cs" />
     <Compile Include="Domain.cs" />
+    <Compile Include="Goals\IGoal.cs" />
     <Compile Include="Planners\IPlan.cs" />
     <Compile Include="Planners\DFSPlan.cs" />
     <Compile Include="PlanningAction.cs" />

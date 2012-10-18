@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GOAP.Goals;
 
 namespace GOAP
 {
-    public class Goal
+    public class Goal : IGoal
     {
         public string Name;
         Dictionary<string, int> _targets = new Dictionary<string, int>();

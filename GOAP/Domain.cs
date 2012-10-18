@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GOAP.Goals;
 
 namespace GOAP.Planners
 {
@@ -17,8 +18,8 @@ namespace GOAP.Planners
         {
             
         }
-        public Goal Goal { get; private set; }
-        public Domain AssignGoal(Goal goal)
+        public IGoal Goal { get; private set; }
+        public Domain AssignGoal(IGoal goal)
         {
             Goal = goal;
             return this;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using GOAP.Planners;
+using GOAP.Goals;
 
 namespace GOAP.Test
 {
@@ -94,6 +95,7 @@ namespace GOAP.Test
                                         );
 
 
+
                 state.Relations.Add(new Tuple<string, string, string>("Board", "Brick 1", "1"));
                 state.Relations.Add(new Tuple<string, string, string>("Board", "Brick 2", "2"));
                 state.Relations.Add(new Tuple<string, string, string>("Board", "Brick 3", "13"));
@@ -112,7 +114,12 @@ namespace GOAP.Test
                 state.Relations.Add(new Tuple<string, string, string>("Board", "Blank", "16"));
             }
             ).AssignGoal(
-                     new Goal("Solve Puzzle").RelationalTarget("Board", "Brick 15", "16"));
+                new Goal("Solve Puzzle").RelationalTarget("Board", "Brick 15", "16")
+            );
+
+            // Todo: write custom goal that uses Manhattan Distance
+            var cg =  new CustomGoal().AssignGoal(delegate(State x) { return 0.0; });
+            var cg2 = new CustomGoal().AssignGoal( state => { return 0.0; });
 
             //puzzle.State.PlanningActions[0].Execute(puzzle.State);
 

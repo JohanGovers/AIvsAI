@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GOAP.Planners;
+using GOAP.Goals;
 
 namespace GOAP
 {
@@ -35,7 +36,7 @@ namespace GOAP
             return this;
         }
 
-		private void Search(State state, Goal goal, int depth)
+		private void Search(State state, IGoal goal, int depth)
 		{
         	if (goal.Fulfillment(state) > bestscore)
 			{
@@ -68,7 +69,7 @@ namespace GOAP
 			}
 		}
 
-        public void Search(State state, Goal goal)
+        public void Search(State state, IGoal goal)
         {
             Search(state, goal, 0);
         }
